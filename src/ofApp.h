@@ -34,19 +34,5 @@ class ofApp : public ofBaseApp{
     
     float * fftSmooth;
     int bands;
-    
-    // Low Pass
-    
-    class ofxLPF {
-    public:
-        ofxLPF(const int samplerate = 44100, const double cutoff = 5000);
-        void initialize(const int samplerate, const double cutoff);
-        double process(const double value);
-        
-    private:
-        double ax[3];
-        double by[3];
-        double xv[3];
-        double yv[3];
 		
 };
