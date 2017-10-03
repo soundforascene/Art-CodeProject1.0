@@ -20,22 +20,26 @@ void demoParticle::setAttractPoints( vector <ofPoint> * attract ){
 //------------------------------------------------------------------
 void demoParticle::reset(){
 	//the unique val allows us to set properties slightly differently for each particle
-	uniqueVal = ofRandom(-10000, 10000);
+    // Changed from (-1000, 1000)
+	uniqueVal = (0);
 	
 	pos.x = ofRandomWidth();
 	pos.y = ofRandomHeight();
-	
-	vel.x = ofRandom(-3.9, 3.9);
+    
+    
+	// Changed from ofRandom(-3.9, 3.9)
+	vel.x = (0);
     // Changed vel.y in attempts to made a faster more 'rain' feel. from 3.9 , 3.9 to -100 , -99
-	vel.y = ofRandom(-100, -99);
+	vel.y = (3);
 	
 	frc   = ofPoint(0,0,0);
 	
-	scale = ofRandom(0.5, 1.0);
+    // Changed the scale
+	scale = (1.0f);
     
     // Below is for mode 'noise'. I have deleted the if statement meaning particles in all modes will fall down (tried)
 	
-		drag  = ofRandom(0.95, 0.998);
+		drag  = ofRandom(0.985,0.99);
 		vel.y = fabs(vel.y) * 3.0; //make the particles all be going down
 
 }
@@ -75,20 +79,20 @@ void demoParticle::update(){
         
         vel *= drag; // apply drag
         if( dist < 150 ){
-            vel += -frc * 0.4; //apply force// notice the frc is negative // 
+            vel += -frc * 6; //apply force// notice the frc is negative //
         }else{
             
             //lets simulate falling snow
             //the fake wind is meant to add a shift to the particles based on where in x they are
             //we add pos.y as an arg so to prevent obvious vertical banding around x values - try removing the pos.y * 0.006 to see the banding
-            float fakeWindX = ofSignedNoise(pos.x * 0.003, pos.y * 0.6, ofGetElapsedTimef() * 0.6);
+            float fakeWindX = ofSignedNoise(pos.x * 0.0003, pos.y * 0.6, ofGetElapsedTimef() * 0.6);
             
             // frc.x controls the movement the particles made from left to right
             frc.x = fakeWindX + ofSignedNoise(uniqueVal, pos.y * 0.04) * 0.6;
             // frc.y controls the downward movement, notice how fakeWindX is only applied on the x axis
             
             // If I remove this line it looks really cool
-            //frc.y = ofSignedNoise(uniqueVal, pos.x * 6, ofGetElapsedTimef()*0.2) * 0.09 + 0.18;
+            frc.y = ofSignedNoise(uniqueVal, pos.x * 6, ofGetElapsedTimef()*0.2) * 0.09 + 0.18;
             
             vel *= drag;
             vel += frc * 0.4;
